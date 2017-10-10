@@ -33,7 +33,7 @@ public class SearchEmployeeController {
 			@RequestParam("employeeID") long employeeID) throws Exception {
 		
 		log.info("Getting details for employee ID " + employeeID);
-		
+		System.out.println("12345");
 		EmployeeDetail employee = detailsService.getEmployeeDetails(employeeID);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("employee", employee.getEmployee());
