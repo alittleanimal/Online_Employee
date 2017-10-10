@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+							http://www.springframework.org/schema/tx
+							http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driverclass}" />
+		<property name="url" value="${url}"/>
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}"/>
+	</bean>
+	
+	<bean id="employeeRep" class="sef.impl.repository.StubEmployeeRepositoryImpl" >
+		<constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="projectRep" class="sef.impl.repository.StubProjectRepositoryImpl" >
+		<constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="skillRep" class="sef.impl.repository.StubSkillRepositoryImpl" >
+		<constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="searchService" class="sef.impl.service.StubSearchServiceImpl" >
+		<constructor-arg ref="employeeRep"/>
+		<constructor-arg ref="projectRep"/>
+	</bean>
+	
+	<bean id="detailsService" class="sef.impl.service.StubEmployeeDetailsServiceImpl" >
+		<constructor-arg ref="employeeRep"/>
+		<constructor-arg ref="projectRep"/>
+		<constructor-arg ref="skillRep"/>
+	</bean>
+	
+	<bean
+class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+	<property name="locations">
+		<value>classpath:db.properties</value>
+	</property>
+</bean>
+	
+
+	
+	
+</beans>
