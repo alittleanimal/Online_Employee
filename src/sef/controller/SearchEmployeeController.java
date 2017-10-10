@@ -34,6 +34,7 @@ public class SearchEmployeeController {
 		
 		log.info("Getting details for employee ID " + employeeID);
 		System.out.println("12345");
+		System.out.println("change from client;");
 		EmployeeDetail employee = detailsService.getEmployeeDetails(employeeID);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("employee", employee.getEmployee());
