@@ -39,13 +39,11 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 		Employee employee = null;
 		try {
 			Connection conn = dataSource.getConnection();
-			String sql = "select * from employee where first_name like ? and last_name like ? or first_name = ? or last_name = ? ";
+			String sql = "select * from employee where first_name like ? and last_name like ?";
 			
 			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, firstName+"%");
-			preparedStatement.setString(2, lastName+"%");
-			preparedStatement.setString(3, firstName+"%");
-			preparedStatement.setString(4, lastName+"%");
+			preparedStatement.setString(1, firstName);
+			preparedStatement.setString(2, lastName);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {

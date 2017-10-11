@@ -13,8 +13,9 @@ import org.apache.log4j.Logger;
 
 public class StubSearchServiceImpl implements SearchService {
 
-	//Tip: create member variables in this class that will contain the objects 
-	//passed by the Spring framework so that other methods can access the objects.
+	// Tip: create member variables in this class that will contain the objects
+	// passed by the Spring framework so that other methods can access the
+	// objects.
 
 	private static Logger log = Logger.getLogger(StubSearchServiceImpl.class);
 	private EmployeeRepository employeeRep;
@@ -28,15 +29,22 @@ public class StubSearchServiceImpl implements SearchService {
 
 	@Override
 	public List<Employee> findEmployeesByName(String firstName, String lastName) {
-		//employeeRep.findEmployeesByName(firstName, lastName);
+		// employeeRep.findEmployeesByName(firstName, lastName);
 		List<Employee> employeeList = new ArrayList<Employee>();
+		if (firstName == "" || lastName == "") {
+			return employeeList;
+		}
+
+		firstName = firstName + "%";
+		lastName = lastName + "%";
 		employeeList = employeeRep.findEmployeesByName(firstName, lastName);
+
 		return employeeList;
 	}
 
 	@Override
 	public List<Employee> findEmployeesByProject(long projectID) {
-		//employeeRep.findEmployeesByProject(projectID);
+		// employeeRep.findEmployeesByProject(projectID);
 		List<Employee> employeeList = new ArrayList<Employee>();
 		employeeList = employeeRep.findEmployeesByProject(projectID);
 		return employeeList;
@@ -44,7 +52,7 @@ public class StubSearchServiceImpl implements SearchService {
 
 	@Override
 	public List<Project> listAllProjects() {
-		//projectRep.listAllProjects();
+		// projectRep.listAllProjects();
 		List<Project> projectList = new ArrayList<Project>();
 		projectList = projectRep.listAllProjects();
 		return projectList;
@@ -65,10 +73,5 @@ public class StubSearchServiceImpl implements SearchService {
 	public void setProjectRep(ProjectRepository projectRep) {
 		this.projectRep = projectRep;
 	}
-
-
-
-
-
 
 }

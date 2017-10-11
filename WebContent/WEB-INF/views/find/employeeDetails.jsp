@@ -5,6 +5,9 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+<script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Employee Details</title>
@@ -12,10 +15,11 @@
 <body>
 
 <hr>
-<h2>Employee Overview:</h2>
+<h2>
+	<span class = "text-primary">Employee Overview:</span>
+</h2>
 <table>
-
-	<tr>
+	<tr class = "warning">
 		<td>
 			<c:out value="${employee.firstName}" /> 
 			<c:out value="${employee.middleInitial}" />. 
@@ -23,7 +27,7 @@
 			(<c:out value="${employee.enterpriseID}" />)
 		</td>
 	</tr>
-	<tr>
+	<tr class = "warning">
 		<td>
 			<c:out value="${employee.level}" />, <c:out value="${employee.workForce}" />
 		</td>
@@ -31,12 +35,14 @@
 </table>
 <hr>
 
-<h2>Project History:</h2>
+<h2>
+	<span class = "text-primary">Project History:</span>
+</h2>
 <c:forEach var="projectdetail" items="${projectList}">
 	<c:set var="project" value="${projectdetail.project}"/>
 	<b>${project.name}</b><br>
 	${project.description}
-	<table border=1 width="90%">
+	<table border=1 width="90%" class = "table table-striped table-bordered table-hover">
 		<tr >
 			<th>Role</th>
 			<th>Start Date</th>
@@ -46,7 +52,7 @@
 		
 		<c:forEach var="projectrole" items="${projectdetail.projectRoles}">
 		
-			<tr>
+			<tr class = "success">
 			<td width=50%><c:out value="${projectrole.role}" /> </td>
 			<td width=25%><c:out value="${projectrole.startDate}" /> </td>
 			<td width=25%><c:out value="${projectrole.endDate}" /> </td>
@@ -58,9 +64,11 @@
 </c:forEach>
 <hr>
 
-<h2>Skill Set:</h2>
+<h2>
+<span class = "text-primary">Skill Set:</span>
+</h2>
 
-<table border=1 width="90%">
+<table border=1 width="90%" class = "table table-striped table-bordered table-hover">
 	<tr >
 		<th>Skill</th>
 		<th>Description</th>
@@ -68,7 +76,7 @@
 	</tr>
 	
 	<c:forEach var="skill" items="${skillList}">
-		<tr>
+		<tr class = "info">
 		<td><c:out value="${skill.name}" /> </td>
 		<td><c:out value="${skill.description}" /> </td>
 		<td><c:out value="${skill.rating}" /> </td>

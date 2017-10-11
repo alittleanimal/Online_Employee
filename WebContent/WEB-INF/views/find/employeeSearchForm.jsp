@@ -8,9 +8,9 @@
 <html>
 
 <script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
-<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css"
-	rel="stylesheet">
+<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
 <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -30,19 +30,22 @@
 	</span>
 	<hr>
 
-	<form name="searchForm" action="/empdb/find/findEmployees.htm"
+	<!-- <form name="searchForm" action="/empdb/find/findEmployees.htm" -->
+	<form name="searchForm" action="<c:url value = "/find/findEmployees.htm"/>"
 		method="POST">
 		<table>
 			<tr>
 				<td>First Name</td>
-				<td colspan=2><input class="form-control" name="firstName" /></td>
+				<td colspan=2><input id = "firstname" class="form-control" name="firstName" /></td>
 			</tr>
 			<tr>
-				<td>Last Name</td>
-				<td><input class="form-control" name="lastName" /></td>
-				<td><input type="submit" class="btn btn-primary"
+				<td id = "lastname">Last Name</td>
+				<td><input id = "lastname" class="form-control" name="lastName" /></td>
+				<td>
+					<input type="submit" class="btn btn-primary"
 					name="searchType" value="Find By Name"
-					onClick="this.value='findByName'"></td>
+					onClick="this.value='findByName'">
+				</td>
 			</tr>
 			<tr>
 				<td colspan=2>OR</td>
@@ -54,8 +57,7 @@
 						<c:forEach var="project" items="${projectList}">
 							<option value="${project.ID}">${project.name}</option>
 						</c:forEach>
-				</select>
-				</td>
+				</select></td>
 				<td><input class="btn btn-primary" type="submit"
 					name="searchType" value="Find by Project"
 					onClick="this.value='findByProject'"></td>
@@ -68,4 +70,24 @@
 	<%@ include file="employeeSearchResults.jsp"%>
 
 </body>
+
+<script>
+ /* var xmlhttp;
+function check(){
+  var name = document.getElementById("firstname").value;
+  var url = "http://how2j.cn/study/checkName.jsp?name="+name;
+ 
+  xmlhttp =new XMLHttpRequest(); 
+  xmlhttp.onreadystatechange=checkResult; 
+  xmlhttp.open("GET",url,true);   
+  xmlhttp.send(null);   
+}
+ 
+function checkResult(){
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    document.getElementById('checkResult').innerHTML=xmlhttp.responseText;
+}  */ 
+ 
+</script>
+
 </html>
