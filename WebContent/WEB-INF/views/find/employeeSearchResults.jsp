@@ -5,7 +5,11 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
+<script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+<link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+<script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
@@ -22,14 +26,17 @@ function submitEmployeeID(form, id)
 </head>
 
 <body>
-Displaying ${fn:length(employeeList)} Result(s) 
-For search criteria: 
+<span class = "text-success">
+	Displaying ${fn:length(employeeList)} Result(s) 
+	For search criteria: 
+</span>
+
 <hr>
 
 <form name="resultsForm" action="/empdb/find/viewEmployeeDetails.htm" method="POST">
 <input type='hidden' name="employeeID">
 <input type='hidden' name="searchString" value="${searchString}">
-<table border=1 width="80%">
+<table border=1 width="80%" class = "table table-striped">
 	<tr>
 			<th width="25%">
 				Employee Name
@@ -48,7 +55,7 @@ For search criteria:
 	var="employee" items="${employeeList}">
 	
 	
-		<tr>
+		<tr class="success">
 
 			<td>
 				<a href="javascript: submitEmployeeID(this.resultsForm, ${employee.ID})"> 
