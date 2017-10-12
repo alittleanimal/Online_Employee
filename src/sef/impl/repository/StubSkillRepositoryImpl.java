@@ -38,12 +38,11 @@ public class StubSkillRepositoryImpl implements SkillRepository{
 
 		List<EmployeeSkill> list = new ArrayList<EmployeeSkill>();
 		EmployeeSkill employeeSkill = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select employee_id, name, description, rating from employee_skill_map map, skill where employee_id = ? and map.skill_id = skill.id ";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setLong(1, employeeID);
+		String sql = "select employee_id, name, description, rating from employee_skill_map map, skill where employee_id = ? and map.skill_id = skill.id ";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
 			
+			preparedStatement.setLong(1, employeeID);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				employeeSkill = new EmployeeSkill();
@@ -53,9 +52,6 @@ public class StubSkillRepositoryImpl implements SkillRepository{
 				employeeSkill.setRating(rs.getInt(4));
 				list.add(employeeSkill);
 			}
-			conn.close();
-			preparedStatement.close();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

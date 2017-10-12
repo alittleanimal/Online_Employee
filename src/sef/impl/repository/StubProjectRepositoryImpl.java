@@ -44,18 +44,10 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 
 		List<Project> list = new ArrayList<Project>();
 		Project project = null;
-		try {
-			Connection conn = dataSource.getConnection();
-
-			/*
-			 * if (!conn.isClosed())
-			 * System.out.println("Succeeded connecting to the Database!"); else
-			 * { System.out.println("error"); }
-			 */
-
-			String sql = "select * from projects";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-
+		String sql = "select * from projects";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				project = new Project();
@@ -65,11 +57,7 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 				project.setClient(rs.getString(4));
 				list.add(project);
 			}
-			conn.close();
-			preparedStatement.close();
-			System.out.println("listAllProjects");
 			return list;
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,10 +68,10 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 	public Project selectProjectsById(long projectID) {
 
 		Project project = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select * from projects where id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		String sql = "select * from projects where id = ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
+			
 			preparedStatement.setLong(1, projectID);
 
 			ResultSet rs = preparedStatement.executeQuery();
@@ -95,10 +83,6 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 				project.setDescription(rs.getString(3));
 				project.setClient(rs.getString(4));
 			}
-//			System.out.println("finish");
-//			System.out.println(project.getID());
-			conn.close();
-			preparedStatement.close();
 			return project;
 
 		} catch (SQLException e) {
@@ -201,10 +185,10 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 
 		List<ProjectRole> list = new ArrayList<ProjectRole>();
 		ProjectRole projectRole = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select * from employee_project_map where employee_id = ? and project_id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		String sql = "select * from employee_project_map where employee_id = ? and project_id = ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
+			
 			preparedStatement.setLong(1, employeeID);
 			preparedStatement.setLong(2, projectID);
 
@@ -217,8 +201,6 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 				projectRole.setEndDate(rs.getDate(6));
 				list.add(projectRole);
 			}
-			conn.close();
-			preparedStatement.close();
 			return list;
 
 		} catch (SQLException e) {
@@ -233,19 +215,16 @@ public class StubProjectRepositoryImpl implements ProjectRepository {
 
 		List<Project> list = new ArrayList<Project>();
 		Project project = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select distinct project_id from employee_project_map where employee_id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		String sql = "select distinct project_id from employee_project_map where employee_id = ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
+			
 			preparedStatement.setLong(1, employeeID);
-
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				project = selectProjectsById(Long.valueOf(rs.getString(1)));
 				list.add(project);
 			}
-			conn.close();
-			preparedStatement.close();
 			return list;
 
 		} catch (SQLException e) {

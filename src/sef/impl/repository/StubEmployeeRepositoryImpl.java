@@ -37,11 +37,10 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 	public List<Employee> findEmployeesByName(String firstName, String lastName) {
 		List<Employee> list = new ArrayList<Employee>();
 		Employee employee = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select * from employee where first_name like ? and last_name like ?";
+		String sql = "select * from employee where first_name like ? and last_name like ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
 			
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, firstName);
 			preparedStatement.setString(2, lastName);
 			
@@ -57,10 +56,7 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 				employee.setEnterpriseID(rs.getString(7));
 				list.add(employee);
 			}
-			conn.close();
-			preparedStatement.close();
 			return list;
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,10 +69,10 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 	public Employee findEmployeeByID(long employeeID) {
 		
 		Employee employee = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select * from employee where id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		String sql = "select * from employee where id = ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
+			
 			preparedStatement.setLong(1, employeeID);
 			
 			ResultSet rs = preparedStatement.executeQuery();
@@ -90,9 +86,6 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 				employee.setWorkForce(rs.getString(6));
 				employee.setEnterpriseID(rs.getString(7));
 			}
-			conn.close();
-			preparedStatement.close();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,20 +98,16 @@ public class StubEmployeeRepositoryImpl implements EmployeeRepository {
 		
 		List<Employee> list = new ArrayList<Employee>();
 		Employee employee = null;
-		try {
-			Connection conn = dataSource.getConnection();
-			String sql = "select distinct employee_id from employee_project_map where project_id = ?";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setLong(1, projectID);
+		String sql = "select distinct employee_id from employee_project_map where project_id = ?";
+		try(Connection conn = dataSource.getConnection();
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);) {
 			
+			preparedStatement.setLong(1, projectID);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				employee = findEmployeeByID(Long.valueOf(rs.getString(1)));
 				list.add(employee);
 			}
-			
-			conn.close();
-			preparedStatement.close();
 			return list;
 			
 		} catch (SQLException e) {
